@@ -1,27 +1,34 @@
 import React, {useState} from 'react';
 import './App.css';
-import {store} from './count';
-import {Counter} from "./Counter";
+import {todoAppWithCombinedReducer} from "./todo/todoReducer";
+import {createStore} from "redux";
+import {AddTodo} from "./AddTodo";
+import {TodoList} from "./TodoList";
+import * as ReactDOM from "react-dom";
 
-const increment = () => {
-    store.dispatch({type: 'INCREMENT'})
+let nextTodoId = 0;
+
+const store = createStore(todoAppWithCombinedReducer);
+const toggleTodoOnClick = (id) => {
+    store.dispatch({type: 'TOGGLE_TODO', id})
+}
+const addTodoOnClick = (input) => {
+    store.dispatch({type: 'ADD_TODO', text: input, id: nextTodoId++})
 }
 
-const decrement = () => {
-    store.dispatch({type: 'DECREMENT'})
-}
 
 const App = () => {
-    const [number, setNumber] = useState(0);
-
-    const updateCurrentValue = () => {
-        setNumber(store.getState());
-    };
-
-    store.subscribe(updateCurrentValue);
     return <div className="App">
-        <Counter value={number} increment={increment} decrement={decrement}/>
+        <AddTodo onAddClick={addTodoOnClick}/>
+        <TodoList todos={store.getState().todos} todoOnClick={toggleTodoOnClick}/>
     </div>
 };
+
+export const render = () => {
+    ReactDOM.render(<App/>,
+        document.getElementById('root'));
+}
+store.subscribe(render);
+render();
 
 export default App;
