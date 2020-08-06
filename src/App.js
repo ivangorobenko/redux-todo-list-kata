@@ -10,6 +10,7 @@ import {Footer} from "./Footer";
 let nextTodoId = 0;
 
 export const store = createStore(todoAppWithCombinedReducer);
+
 const toggleTodoOnClick = (id) => {
     store.dispatch({type: 'TOGGLE_TODO', id})
 }
@@ -30,12 +31,12 @@ const onFilterClick = (filter) => {
     store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
 }
 
-const App = ({todos,visibilityFilter}) => {
+const App = ({todos, visibilityFilter}) => {
     return <div className="App">
         <AddTodo onAddClick={addTodoOnClick}/>
         <TodoList todos={getVisibleTodos(todos, visibilityFilter)}
                   todoOnClick={toggleTodoOnClick}/>
-        <Footer onClick={onFilterClick} visibilityFilter={visibilityFilter}/>
+        <Footer/>
     </div>
 };
 
