@@ -1,10 +1,10 @@
 import chai from "chai";
-import {todos} from "./todoReducer";
+import {todos} from "../src/todoReducer";
 import deepFreeze from "deep-freeze";
 
 chai.should();
 describe("Todo reducer", function () {
-    it("doit permettre de rajouter une todo ", function () {
+    it("doit permettre de rajouter une reducers ", function () {
         const stateBefore = [];
         const actionAddTodo = {type: "ADD_TODO", id: 0, text: "Learn redux"};
         const stateAfter = [{
@@ -16,7 +16,7 @@ describe("Todo reducer", function () {
         const result = todos(stateBefore, actionAddTodo)
         result.should.be.deep.equals(stateAfter)
     });
-    it("doit permettre passer une todo à completed", function () {
+    it("doit permettre passer une reducers à completed", function () {
         const stateBefore = [{
             id: 0, text: "Learn redux", completed: false
         }, {

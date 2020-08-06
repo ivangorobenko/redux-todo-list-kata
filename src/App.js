@@ -1,31 +1,46 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {todoAppWithCombinedReducer} from "./todo/todoReducer";
+import {todoAppWithCombinedReducer} from "./todoReducer";
 import {createStore} from "redux";
 import {AddTodo} from "./AddTodo";
 import {TodoList} from "./TodoList";
 import * as ReactDOM from "react-dom";
+import {Footer} from "./Footer";
 
 let nextTodoId = 0;
 
-const store = createStore(todoAppWithCombinedReducer);
+export const store = createStore(todoAppWithCombinedReducer);
 const toggleTodoOnClick = (id) => {
     store.dispatch({type: 'TOGGLE_TODO', id})
 }
 const addTodoOnClick = (input) => {
     store.dispatch({type: 'ADD_TODO', text: input, id: nextTodoId++})
 }
+const getVisibleTodos = (todos, filter) => {
+    switch (filter) {
+        case 'SHOW_ALL':
+            return todos;
+        case 'SHOW_COMPLETED':
+            return todos.filter(t => t.completed);
+        case 'SHOW_ACTIVE':
+            return todos.filter(t => !t.completed);
+    }
+}
+const onFilterClick = (filter) => {
+    store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
+}
 
-
-const App = () => {
+const App = ({todos,visibilityFilter}) => {
     return <div className="App">
         <AddTodo onAddClick={addTodoOnClick}/>
-        <TodoList todos={store.getState().todos} todoOnClick={toggleTodoOnClick}/>
+        <TodoList todos={getVisibleTodos(todos, visibilityFilter)}
+                  todoOnClick={toggleTodoOnClick}/>
+        <Footer onClick={onFilterClick} visibilityFilter={visibilityFilter}/>
     </div>
 };
 
 export const render = () => {
-    ReactDOM.render(<App/>,
+    ReactDOM.render(<App {...store.getState()}/>,
         document.getElementById('root'));
 }
 store.subscribe(render);
