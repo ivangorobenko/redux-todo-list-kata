@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import {store} from "./App";
 import {TodoList} from "./TodoList";
 
 export class VisibleTodoList extends Component {
     componentDidMount = () => {
-        this.unsubscribe = store.subscribe(()=>{
+        const {store} = this.props;
+        this.unsubscribe = store.subscribe(() => {
             this.forceUpdate();
         });
     };
@@ -12,7 +12,7 @@ export class VisibleTodoList extends Component {
         this.unsubscribe();
     };
 
-   toggleTodoOnClick = (id) => {
+    toggleTodoOnClick = (id, store) => {
         store.dispatch({type: 'TOGGLE_TODO', id})
     }
 
@@ -26,9 +26,11 @@ export class VisibleTodoList extends Component {
                 return todos.filter(t => !t.completed);
         }
     }
+
     render() {
+        const {store} = this.props;
         const state = store.getState();
         return <TodoList todos={this.getVisibleTodos(state.todos, state.visibilityFilter)}
-                         todoOnClick={this.toggleTodoOnClick}/>
+                         todoOnClick={(id)=>this.toggleTodoOnClick(id,store)}/>
     }
 }

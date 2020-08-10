@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Link} from "./Link";
-import {store} from "./App";
 
 export class FilterLink extends Component {
     componentDidMount = () => {
+        const {store} = this.props;
         this.unsubscribe = store.subscribe(() => {
             this.forceUpdate();
         });
@@ -12,16 +12,17 @@ export class FilterLink extends Component {
         this.unsubscribe();
     };
 
-    onFilterClick = (filter) => {
+    onFilterClick = (filter, store) => {
         store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
     }
 
     render() {
         const props = this.props;
+        const {store} = this.props;
         const state = store.getState();
         return (<Link active={state.visibilityFilter === props.filter}
                       onClick={() => {
-                          this.onFilterClick(props.filter)
+                          this.onFilterClick(props.filter,store)
                       }}>{props.children}</Link>)
     }
 }
