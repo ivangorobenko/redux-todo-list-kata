@@ -1,13 +1,21 @@
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
+import {store} from "./App";
 
-export const AddTodo = ({onAddClick}) => {
+let nextTodoId = 0;
+
+export const AddTodo = () => {
     let input
+
+    const addTodoOnClick = (input) => {
+        store.dispatch({type: 'ADD_TODO', text: input, id: nextTodoId++})
+    }
+
     return <div>
         <input ref={node => input = node}/>
         <IconButton size={"medium"} onClick={() => {
-            onAddClick(input.value);
+            addTodoOnClick(input.value);
             input.value = '';
         }}>
             <AddIcon/>

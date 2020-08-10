@@ -3,13 +3,17 @@ import {Link} from "./Link";
 import {store} from "./App";
 
 export class FilterLink extends Component {
-    componentDidMount() {
-        this.unsubscribe = store.subscribe(()=>{
-           this.forceUpdate();
+    componentDidMount = () => {
+        this.unsubscribe = store.subscribe(() => {
+            this.forceUpdate();
         });
-    }
-    componentWillUnmount() {
+    };
+    componentWillUnmount = () => {
         this.unsubscribe();
+    };
+
+    onFilterClick = (filter) => {
+        store.dispatch({type: 'SET_VISIBILITY_FILTER', filter});
     }
 
     render() {
@@ -17,7 +21,7 @@ export class FilterLink extends Component {
         const state = store.getState();
         return (<Link active={state.visibilityFilter === props.filter}
                       onClick={() => {
-                          store.dispatch({type: 'SET_VISIBILITY_FILTER', filter: props.filter});
+                          this.onFilterClick(props.filter)
                       }}>{props.children}</Link>)
     }
 }
