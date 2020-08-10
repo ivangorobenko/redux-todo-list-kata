@@ -3,7 +3,7 @@ import {TodoList} from "./TodoList";
 
 export class VisibleTodoList extends Component {
     componentDidMount = () => {
-        const {store} = this.props;
+        const {store} = this.context;
         this.unsubscribe = store.subscribe(() => {
             this.forceUpdate();
         });
@@ -28,9 +28,10 @@ export class VisibleTodoList extends Component {
     }
 
     render() {
-        const {store} = this.props;
+        const {store} = this.context;
+        console.log(store);
         const state = store.getState();
         return <TodoList todos={this.getVisibleTodos(state.todos, state.visibilityFilter)}
-                         todoOnClick={(id)=>this.toggleTodoOnClick(id,store)}/>
+                         todoOnClick={(id) => this.toggleTodoOnClick(id, store)}/>
     }
 }

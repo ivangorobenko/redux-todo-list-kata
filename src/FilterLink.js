@@ -3,7 +3,7 @@ import {Link} from "./Link";
 
 export class FilterLink extends Component {
     componentDidMount = () => {
-        const {store} = this.props;
+        const {store} = this.context;
         this.unsubscribe = store.subscribe(() => {
             this.forceUpdate();
         });
@@ -18,7 +18,7 @@ export class FilterLink extends Component {
 
     render() {
         const props = this.props;
-        const {store} = this.props;
+        const {store} = this.context;
         const state = store.getState();
         return (<Link active={state.visibilityFilter === props.filter}
                       onClick={() => {

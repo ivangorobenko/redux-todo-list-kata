@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 import {todoAppWithCombinedReducer} from "./todoReducer";
 import {createStore} from "redux";
@@ -6,16 +7,34 @@ import {AddTodo} from "./AddTodo";
 import * as ReactDOM from "react-dom";
 import {Footer} from "./Footer";
 import {VisibleTodoList} from "./VisibleTodoList";
+import {Provider} from "./Provider";
+import {FilterLink} from "./FilterLink";
 
-const App = ({store}) => {
+AddTodo.contextTypes = {
+    store: PropTypes.object
+}
+
+VisibleTodoList.contextTypes = {
+    store: PropTypes.object
+}
+
+FilterLink.contextTypes = {
+    store: PropTypes.object
+}
+const App = () => {
     return <div className="App">
-        <AddTodo store={store}/>
-        <VisibleTodoList store={store}/>
-        <Footer store={store}/>
+        <AddTodo/>
+        <VisibleTodoList />
+        <Footer/>
     </div>
 };
 
-ReactDOM.render(<App store={createStore(todoAppWithCombinedReducer)}/>,
+Provider.childContextTypes = {
+    store: PropTypes.object
+};
+
+
+ReactDOM.render(<Provider store={createStore(todoAppWithCombinedReducer)}><App/></Provider>,
     document.getElementById('root'));
 
 

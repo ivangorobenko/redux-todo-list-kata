@@ -37,12 +37,6 @@ const visibilityFilter = (state = "SHOW_ALL", action) => {
     }
 }
 
-const todoApp = (state = {}, action) => {
-    return {
-        todos: todos(state.todos, action),
-        visibilityFilter: visibilityFilter(state.visibilityFilter, action)
-    }
-}
 export const todoAppWithCombinedReducer = combineReducers({todos, visibilityFilter});
 
 const combinedReducersRecoded = (reducers) => {
