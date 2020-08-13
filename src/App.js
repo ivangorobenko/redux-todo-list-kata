@@ -3,31 +3,23 @@ import PropTypes from 'prop-types';
 import './App.css';
 import {todoAppWithCombinedReducer} from "./todoReducer";
 import {createStore} from "redux";
-import {AddTodo} from "./AddTodo";
 import * as ReactDOM from "react-dom";
 import {Footer} from "./Footer";
 import {VisibleTodoList} from "./VisibleTodoList";
-import {Provider} from "./Provider";
-import {FilterLink} from "./FilterLink";
+import {Provider} from "react-redux";
+import {AddTodo} from "./AddTodo";
 
-AddTodo.contextTypes = {
-    store: PropTypes.object
-}
 
-VisibleTodoList.contextTypes = {
-    store: PropTypes.object
-}
 
-FilterLink.contextTypes = {
-    store: PropTypes.object
+class App extends React.Component {
+    render() {
+        return <div className="App">
+            <AddTodo/>
+            <VisibleTodoList/>
+            <Footer/>
+        </div>
+    }
 }
-const App = () => {
-    return <div className="App">
-        <AddTodo/>
-        <VisibleTodoList />
-        <Footer/>
-    </div>
-};
 
 Provider.childContextTypes = {
     store: PropTypes.object
