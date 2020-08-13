@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "./Link";
 import {connect} from "react-redux";
+import {createSetVisibilityFilterAction} from "./actionCreators";
 
 const mapStateToLinkProps = (state, ownProps) => {
     return {
@@ -10,8 +11,8 @@ const mapStateToLinkProps = (state, ownProps) => {
 
 const mapDispatchToLinkProps = (dispatch, ownProps) => {
     return {
-        onTodoClick: (id) => {
-            dispatch({type: 'TOGGLE_TODO', id})
+        onClick: () => {
+            dispatch(createSetVisibilityFilterAction(ownProps.filter))
         },
     }
 }

@@ -2,10 +2,7 @@ import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
 import {connect} from "react-redux";
-
-
-let nextTodoId = 0;
-
+import {createAddTodoAction} from "./actionCreators";
 
 export let AddTodo = ({dispatch}) => {
     let input
@@ -13,7 +10,7 @@ export let AddTodo = ({dispatch}) => {
     return <div>
         <input ref={node => input = node}/>
         <IconButton size={"medium"} onClick={() => {
-            dispatch({type: 'ADD_TODO', text: input.value, id: nextTodoId++})
+            dispatch(createAddTodoAction(input.value))
             input.value = '';
         }}>
             <AddIcon/>

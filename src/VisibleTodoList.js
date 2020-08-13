@@ -1,6 +1,7 @@
 import React from "react";
 import {TodoList} from "./TodoList";
 import {connect} from "react-redux";
+import {createToggleTodoAction} from "./actionCreators";
 
 const getVisibleTodos = (todos, filter) => {
     switch (filter) {
@@ -22,7 +23,7 @@ const mapStateToTodoListProps = (state) => {
 const mapDispatchToTodoListProps = (dispatch) => {
     return {
         onTodoClick: (id) => {
-            dispatch({type: 'TOGGLE_TODO', id})
+            dispatch(createToggleTodoAction(id))
         },
     }
 }
